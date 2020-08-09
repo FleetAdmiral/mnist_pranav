@@ -4,7 +4,7 @@ from .ans import predict
 # initialize the main blueprint
 main = Blueprint('main', __name__)
 
-
+#GET, POST and definition of the one big function that is in use to handle all backend parts
 @main.route('/', methods=['GET', 'POST'])
 def upload_image():
     if request.method == 'GET':

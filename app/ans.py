@@ -34,15 +34,17 @@ class Net(nn.Module):
         ans = F.log_softmax(self.fc4(ans), dim=1)
         return ans
 
+#By defining a Net instance, we are now referring to a single Neural Network Net - one set of all layers layed one after the otjer
 model_load = Net()
 model_load.load_state_dict(torch.load(path, map_location='cpu'), strict=False)
 model_load.eval()
 
+#How to predict - run image_bytes through the model once
 def predict(image_bytes):
     transform = transforms.Compose([transforms.Resize((28,28)),
                                     transforms.ToTensor()])
     image = Image.open(io.BytesIO(image_bytes)).convert('L')
     tensor = transform(image).unsqueeze(0)
-    output = model_load.forward(tensor)
+    output = model_load.forward(tensor) #actual prediction!
     _, pred = torch.max(output, 1)
     return pred.item()
